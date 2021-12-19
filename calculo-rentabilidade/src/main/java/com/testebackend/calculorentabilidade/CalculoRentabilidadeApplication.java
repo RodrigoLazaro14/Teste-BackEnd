@@ -8,6 +8,7 @@ public class CalculoRentabilidadeApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(CalculoRentabilidadeApplication.class, args);
+		boolean teste;
 	}
 
 }
