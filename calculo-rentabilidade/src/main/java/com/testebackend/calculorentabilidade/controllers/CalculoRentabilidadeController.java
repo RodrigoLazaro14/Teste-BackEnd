@@ -46,7 +46,7 @@ public class CalculoRentabilidadeController {
 	}
 	
 	@GetMapping("/investimentos")
-	@ApiOperation(value = "Retorna uma lista de investimentos com o calculo de rentabilidade")
+	@ApiOperation(value = "Retorna uma lista de investimentos com resultado do calculo de rentabilidade")
 	public List<CalculoRentabilidade> getListaInvestimentos() {
 		return calculoRentabilidadeRepository.findAll();
 	}
