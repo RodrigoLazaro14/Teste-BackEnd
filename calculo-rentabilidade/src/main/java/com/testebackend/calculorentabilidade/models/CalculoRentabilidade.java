@@ -10,6 +10,7 @@ public class CalculoRentabilidade extends Investimento {
 	
 	private static final long serialVersionUID = 1L;
 	
+	// Resultado do cálculo de rentabilidade
 	@Column(name = "montante_final")
 	double montanteFinal;
 	

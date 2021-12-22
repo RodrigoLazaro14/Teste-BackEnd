@@ -20,8 +20,12 @@ import com.testebackend.calculorentabilidade.repository.CalculoRentabilidadeRepo
 import com.testebackend.calculorentabilidade.repository.InvestimentoRepository;
 import com.testebackend.calculorentabilidade.service.InvestimentoService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping(value = "/api-calculo-rentabilidade")
+@Api(value = "API REST - Calcular Rentabilidade")
 @CrossOrigin(origins="*", allowedHeaders="*")
 public class CalculoRentabilidadeController {
 
@@ -36,26 +40,31 @@ public class CalculoRentabilidadeController {
 	
 	
 	@PostMapping("/investimento")
+	@ApiOperation(value = "Adiciona um novo investimento")
 	public CalculoRentabilidade salvaInvestimento(@RequestBody Investimento investimento) {
 		return investimentoService.calcularRentabilidade(investimento);
 	}
 	
 	@GetMapping("/investimentos")
+	@ApiOperation(value = "Retorna uma lista de investimentos com o calculo de rentabilidade")
 	public List<CalculoRentabilidade> getListaInvestimentos() {
 		return calculoRentabilidadeRepository.findAll();
 	}
 	
 	@GetMapping("/investimento/{name}")
+	@ApiOperation(value = "Busca um investimento pelo nome")
 	public ResponseEntity<List<CalculoRentabilidade>> getInvestimentoByName(@PathVariable String name) {
 		return ResponseEntity.ok(calculoRentabilidadeRepository.findBynomeUsuarioContainingIgnoreCase(name));
 	}
 	
 	@PutMapping("/investimento")
+	@ApiOperation(value = "Atualiza um investimento")
 	public CalculoRentabilidade atualizaInvestimento(@RequestBody CalculoRentabilidade investimento) {
 		return calculoRentabilidadeRepository.save(investimento);
 	}
 	
 	@DeleteMapping("/investimento")
+	@ApiOperation(value = "Deleta um investimento")
 	public void deletaInvestimento(@RequestBody CalculoRentabilidade investimento) {
 		calculoRentabilidadeRepository.delete(investimento);
 	}
