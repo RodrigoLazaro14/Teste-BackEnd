@@ -3,6 +3,8 @@ package com.testebackend.calculorentabilidade.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,8 +21,9 @@ import com.testebackend.calculorentabilidade.repository.InvestimentoRepository;
 import com.testebackend.calculorentabilidade.service.InvestimentoService;
 
 @RestController
-@RequestMapping(value = "/api-investimento")
-public class InvestimentoController {
+@RequestMapping(value = "/api-calculo-rentabilidade")
+@CrossOrigin(origins="*", allowedHeaders="*")
+public class CalculoRentabilidadeController {
 
 	@Autowired
 	InvestimentoRepository investimentoRepository;
@@ -31,28 +34,30 @@ public class InvestimentoController {
 	@Autowired
 	InvestimentoService investimentoService;
 	
-	@GetMapping("/investimentos")
-	public List<CalculoRentabilidade> listaInvestimentos() {
-		return calculoRentabilidadeRepository.findAll();
-	}
-	
-	@GetMapping("/investimento/{id}")
-	public Investimento listaInvestimento(@PathVariable(value="id") long id) {
-		return investimentoRepository.findById(id);
-	}
 	
 	@PostMapping("/investimento")
 	public CalculoRentabilidade salvaInvestimento(@RequestBody Investimento investimento) {
 		return investimentoService.calcularRentabilidade(investimento);
 	}
 	
+	@GetMapping("/investimentos")
+	public List<CalculoRentabilidade> getListaInvestimentos() {
+		return calculoRentabilidadeRepository.findAll();
+	}
+	
+	@GetMapping("/investimento/{name}")
+	public ResponseEntity<List<CalculoRentabilidade>> getInvestimentoByName(@PathVariable String name) {
+		return ResponseEntity.ok(calculoRentabilidadeRepository.findBynomeUsuarioContainingIgnoreCase(name));
+	}
+	
 	@PutMapping("/investimento")
-	public Investimento atualizaInvestimento(@RequestBody Investimento investimento) {
-		return investimentoRepository.save(investimento);
+	public CalculoRentabilidade atualizaInvestimento(@RequestBody CalculoRentabilidade investimento) {
+		return calculoRentabilidadeRepository.save(investimento);
 	}
 	
 	@DeleteMapping("/investimento")
-	public void deletaInvestimento(@RequestBody Investimento investimento) {
-		investimentoRepository.delete(investimento);
+	public void deletaInvestimento(@RequestBody CalculoRentabilidade investimento) {
+		calculoRentabilidadeRepository.delete(investimento);
 	}
+
 }
